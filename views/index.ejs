@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>apka pogodowa</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<h1>apka pogodowa</h1>
+
+<form action="/weather" method="POST">
+
+    <label>kraj:</label>
+
+    <select id="country" name="country">
+
+        <% Object.keys(locations).forEach(country => { %>
+
+            <option value="<%= country %>">
+                <%= country %>
+            </option>
+
+        <% }) %>
+
+    </select>
+
+    <br><br>
+
+    <label>miasto:</label>
+
+    <select id="city" name="city"></select>
+
+    <br><br>
+
+    <button type="submit">
+        pokaż pogodę
+    </button>
+
+</form>
+
+<% if(weather){ %>
+
+    <% if(weather.error){ %>
+
+        <h2><%= weather.error %></h2>
+
+    <% } else { %>
+
+        <h2><%= weather.city %>, <%= weather.country %></h2>
+
+        <p>Temperature: <%= weather.temperature %> °C</p>
+
+        <p>Humidity: <%= weather.humidity %> %</p>
+
+        <p>Wind speed: <%= weather.wind %> km/h</p>
+
+    <% } %>
+
+<% } %>
+
+<script>
+
+const locations = <%- JSON.stringify(locations) %>;
+
+const countrySelect = document.getElementById("country");
+const citySelect = document.getElementById("city");
+
+function updateCities() {
+
+    const selectedCountry = countrySelect.value;
+
+    citySelect.innerHTML = "";
+
+    Object.keys(locations[selectedCountry]).forEach(city => {
+
+        const option = document.createElement("option");
+
+        option.value = city;
+        option.text = city;
+
+        citySelect.appendChild(option);
+    });
+}
+
+countrySelect.addEventListener("change", updateCities);
+
+updateCities();
+
+</script>
+
+</body>
+</html>
