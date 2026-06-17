@@ -63,4 +63,4 @@ steps:
 
       cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/weather-app-cache:buildcache
       cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/weather-app-cache:buildcache,mode=max
-```
+
